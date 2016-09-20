@@ -12,8 +12,8 @@ class StackOfThree(object):
         self.stack = [None, None, None]
 
     def pop_one(self):
-        if self.pos1 - 1 > 0:
-            to_ret = self.stack.pop(self.pos1)
+        if self.pos2 - 1 > 0:
+            to_ret = self.stack.pop(self.pos2 - 1)
         self.pos2 -= 1
         self.pos3 -= 1
 
@@ -24,5 +24,4 @@ class StackOfThree(object):
         self.pos2 += 1
         self.pos3 += 1
 
-    # and so push_one
-
+    # and so on
