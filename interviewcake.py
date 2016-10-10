@@ -93,8 +93,73 @@ def merge_ranges(lst):
 
     return merged
 
+def coins(target, denoms, known_results):
+
+    min_coins = target
+
+    #base case
+    if target in denoms:
+        known_results[target] = 1
+        return 1
+
+    elif known_results[target] > 0:
+        return known_results[target]
+
+    else:
+        for i in [d for d in denoms if d  <= target]:
+            num_coins = 1 + coins(target - i, denoms, known_results)
+
+            min_coins = min(num_coins, min_coins)
+
+            known_results[target] = min_coins
+
+    return min_coins
 
 
+def find_x_overlap(rect1_coordinates, rect2_coordinates):
+    highest_start = max(rect1_coordinates[0], rect2_coordinates[0])
+
+    lowest_end = min(rect1_coordinates[1], rect2_coordinates[1])
+
+    if highest_start >= lowest_end:
+        return (None, None)
+
+    return (highest_start, lowest_end)
+
+def find_y_overlap(rect1_coordinates, rect2_coordinates):
+    highest_start = max(rect1_coordinates[0], rect2_coordinates[0])
+
+    lowest_end = min(rect1_coordinates[1], rect2_coordinates[1])
+
+    if highest_start >= lowest_end:
+        return (None, None)
+
+    return (highest_start, lowest_end)
+
+
+def find_intersection(rect1, rect2):
+
+    intersection = {}
+
+    #rect 1
+    rect1_x_coordinates = (rect1['left_x'], rect1['left_x'] + rect1['width'])
+    rect1_y_coordinates = (rect1['bottom_y'], rect1['bottom_y'] + rect1['height'])
+
+    #rect 2
+    rect2_x_coordinates = (rect2['left_x'], rect2['left_x'] + rect2['width'])
+    rect2_y_coordinates = (rect2['bottom_y'], rect2['bottom_y'] + rect2['height'])
+
+    # INTERSECTION
+    x_overlap = find_x_overlap(rect1_x_coordinates, rect2_x_coordinates)
+    y_overlap = find_y_overlap(rect1_y_coordinates, rect2_y_coordinates)
+
+    if x_overlap[0] and y_overlap[0]:
+        intersection['left_x'] = x_overlap[0]
+        intersection['bottom_y'] = y_overlap[0]
+        intersection['width'] = x_overlap[1] - x_overlap[0]
+        intersection['height'] = y_overlap[1] - y_overlap[0]
+
+    return intersection
 
 
 
